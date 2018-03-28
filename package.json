@@ -1,0 +1,14 @@
+{
+  "name": "pixie",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./server/index.js",
+    "client": "npm run start --prefix client",
+    "server": "nodemon index.js --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "win:dev": "set HTTPS=true&&concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "concurrently": "^3.5.1"
+  }
+}
