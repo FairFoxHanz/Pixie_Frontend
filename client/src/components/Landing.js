@@ -11,7 +11,7 @@ const Landing = props => {
       <h1>
         {name ? `${name} welcome on` : ""}
         <br />
-        Pixy!
+        Pixie!
       </h1>
       Organize you event easily!
     </div>

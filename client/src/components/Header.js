@@ -1,7 +1,7 @@
+import "./Header.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import keys from "../config/keys";
 
 class Header extends Component {
   renderContent() {
@@ -11,28 +11,48 @@ class Header extends Component {
       case false:
         return (
           <li key="login">
-            <a href={`/auth/facebook/`}>
-              Login with Facebook
-            </a>
+            <a href={`/auth/facebook/`} className="header-button">Login with Facebook</a>
           </li>
         );
       default:
         return (
-          <li key="logout">
-            <a href={`/api/logout`}>Logout</a>
+          <li key="logout" >
+            <a href={`/api/logout`} className="header-button">Logout</a>
           </li>
+        );
+    }
+  }
+
+  renderOptions() {
+    switch (this.props.auth) {
+      case null:
+        return;
+      case false:
+        return;
+      default:
+        return (
+          <ul className="right">
+            <li key="guest">
+              <Link to={`/guest/`} className="header-button">Guest</Link>
+            </li>
+            <li key="host">
+              <Link to={`/host/`} className="header-button">Host</Link>
+            </li>{" "}
+          </ul>
         );
     }
   }
 
   render() {
     return (
-      <nav>
-        <div className="light-blue nav-wrapper">
-          <Link to={this.props.auth ? "/" : "/"} className="left brand-logo">
-            Pixy
+      <nav className="navigation">
+        <div className="white nav-wrapper">
+          <ul className="left">{this.renderContent()}</ul>
+
+          <Link to={this.props.auth ? "/" : "/"} className="brand-logo center">
+          <img className="logo-img" src="/logo.png" alt="logo" />
           </Link>
-          <ul className="right">{this.renderContent()}</ul>
+          {this.renderOptions()}
         </div>
       </nav>
     );

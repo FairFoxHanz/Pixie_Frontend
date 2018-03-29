@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/require_login");
 
-const Events = mongoose.model("events");
+const Event = mongoose.model("events");
 
 module.exports = app => {
   app.get("/events/list", requireLogin, async (req, res) => {
-    const events = await Events.find({ _user: req.user.id });
+    const events = await Event.find({ _user: req.user.id });
 
     res.send(events);
   });
