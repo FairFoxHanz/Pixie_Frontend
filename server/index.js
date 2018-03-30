@@ -16,8 +16,8 @@ const fs = require("fs");
 
 //Certificates for https
 const options = {
-  key: fs.readFileSync(__dirname+"/config/certificates/pixie.key"),
-  cert: fs.readFileSync(__dirname+"/config/certificates/pixie.crt")
+  key: fs.readFileSync(__dirname + "/config/certificates/pixie.key"),
+  cert: fs.readFileSync(__dirname + "/config/certificates/pixie.crt")
 };
 
 const app = express();
@@ -26,7 +26,7 @@ mongoose.connect(keys.mongoURI);
 
 app.use(cookieParser());
 app.use(
-  session({ secret: keys.cookieKey, cookie: { maxAge: 60 * 60 * 1000 }})
+  session({ secret: keys.cookieKey, cookie: { maxAge: 60 * 60 * 1000 } })
 );
 
 app.use(passport.initialize());
@@ -36,15 +36,19 @@ app.use(bodyParser.json());
 require("./routes/auth_routes")(app);
 require("./routes/event_routes")(app);
 
-if(process.env.NODE_ENV == 'production'){
-  app.use(express.static('client/build'));
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("client/build"));
 
-  const path = require('path');
-  app.get('*', (req,res) => {
-      res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 }
 
 const PORT = process.env.PORT || 5000;
 
-https.createServer(options, app).listen(PORT);
+if (process.env.NODE_ENV == "production") {
+  app.listen(PORT);
+} else {
+  https.createServer(options, app).listen(PORT);
+}
