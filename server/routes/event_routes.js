@@ -12,14 +12,14 @@ module.exports = app => {
 
   app.post("/events/create", requireLogin, async (req, res) => {
     const { name, place, date } = req.body;
-
+    console.log(name, place, date);
     const event = new Event({
       name,
       place,
-      date,
+      eventDate:Date.parse(date),
       _user: req.user.id
     });
-
+    console.log(event);
     try {
       await event.save();
       res.status(200).send(event);

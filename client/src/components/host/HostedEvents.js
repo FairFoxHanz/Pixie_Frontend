@@ -1,8 +1,9 @@
 import "./HostedEvents.css";
 import React, { Component } from "react";
-import { fetchEvents } from "../actions";
+import { fetchEvents } from "../../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Moment from "moment";
 
 class HostedEvents extends Component {
   constructor(props) {
@@ -11,14 +12,14 @@ class HostedEvents extends Component {
   }
 
   renderEventsList() {
-      console.log(this.props.events);
+    Moment.locale('pl');
     if (this.props.events) {
       return this.props.events.map(event => {
         return (
           <tr key={event._id}>
             <td>{event.name}</td>
             <td>{event.place}</td>
-            <td>{event.eventDate}</td>
+            <td>{Moment(event.eventDate).format('MM.DD.YYYY')}</td>
           </tr>
         );
       });
