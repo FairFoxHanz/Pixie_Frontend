@@ -28,6 +28,8 @@ class App extends Component {
         <div className="container">
           <div className="top-bar" />
           <Header />
+          <a href="fb-messenger://share/?link= https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fsharing%2Freference%2Fsend-dialog&app_id=356831484832247">Send In Messenger</a>
+
 
           <Route exact path="/" component={Landing} />
           {this.addAuthorizedRoutes()}
