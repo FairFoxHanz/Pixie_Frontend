@@ -5,7 +5,7 @@ require("./services/passport");
 const express = require("express");
 const mongoose = require("mongoose");
 const keys = require("./config/keys");
-const session = require("express-session");
+const session = require("cookie-session");
 var cookieParser = require("cookie-parser");
 const passport = require("passport");
 const bodyParser = require("body-parser");
@@ -26,13 +26,7 @@ mongoose.connect(keys.mongoURI);
 
 app.use(cookieParser());
 app.use(
-  session({
-    secret: "cookie_secret",
-    name: "cookie_name",
-    proxy: true,
-    resave: true,
-    saveUninitialized: true
-  })
+  session({ secret: keys.cookieKey, cookie: { maxAge: 60 * 60 * 1000 }})
 );
 
 app.use(passport.initialize());
