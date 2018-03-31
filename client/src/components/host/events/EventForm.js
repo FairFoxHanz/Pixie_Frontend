@@ -3,60 +3,81 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {createEvent} from "../../../actions";
+import { createEvent } from "../../../actions";
 import EventField from "./EventField";
+import EventDatePicker from "./EventDatePicker";
 import formFields from "./formFields";
+import moment from "moment";
 
 class EventForm extends Component {
-  
   renderFields() {
-        return _.map(formFields, ({ name, label }) => (
+    return _.map(formFields, ({ name, label }) => (
+      <Field
+        key={name}
+        component={EventField}
+        type="text"
+        label={label}
+        name={name}
+      />
+    ));
+  }
+
+  render() {
+    return (
+      <div>
+        <form>
+          {this.renderFields()}
           <Field
-            key={name}
-            component={EventField}
+            key="date"
+            component={EventDatePicker}
             type="text"
-            label={label}
-            name={name}
+            label="Date"
+            name="date"
           />
-        ));
-      }
-    
-      render() {
-        return (
-          <div>
-            <form>
-              {this.renderFields()}
-              <Link to="/host" onClick={() => createEvent(this.props.formValues, this.props.history)} className="teal btn-flat right white-text blue cyan">
-                Submit <i className="material-icons right">done</i>
-              </Link>
-              <Link className="red btn-flat white-text pink accent-3" to="/host">
-                Cancel
-              </Link>
-            </form>
-          </div>
-        );
-      }
+          <Link
+            to="/host"
+            onClick={() =>
+              createEvent(this.props.formValues, this.props.history)
+            }
+            className="teal btn-flat right white-text blue cyan"
+          >
+            Submit <i className="material-icons right">done</i>
+          </Link>
+          <Link className="red btn-flat white-text pink accent-3" to="/host">
+            Cancel
+          </Link>
+        </form>
+      </div>
+    );
+  }
 }
 
 function validate(values) {
-    const errors = {};
-  
-    _.forEach(formFields, ({ name }) => {
-      if (!values[name]) {
-        errors[name] = `You must provide ${name}!`;
-      }
-    });
-  
-    return errors;
+  const errors = {};
+
+  _.forEach(formFields, ({ name }) => {
+    if (!values[name]) {
+      errors[name] = `You must provide ${name}!`;
+    }
+  });
+
+  if (!values.date) {
+    errors.date = `You must provide date of event!`;
+  } else {
+    if (!moment(values.date).isAfter(Date.now())) {
+      errors.date = "Date can't be in past.";
+    }
   }
 
-  function mapStateToProps(state) {
-    return { formValues: state.form.eventForm.values };
-  }
+  return errors;
+}
+
+function mapStateToProps(state) {
+  return { formValues: { ...state.form.eventForm.values } };
+}
 
 export default reduxForm({
-    validate,
-    destroyOnUnmount: false,
-    form: "eventForm"
-  })(connect(mapStateToProps, {createEvent})(EventForm));
-  
+  validate,
+  destroyOnUnmount: false,
+  form: "eventForm"
+})(connect(mapStateToProps, { createEvent })(EventForm));

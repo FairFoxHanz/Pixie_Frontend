@@ -18,8 +18,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "input-moment": "^0.4.0",
     "materialize-css": "^0.100.2",
     "react": "^16.2.0",
+    "react-datepicker": "^1.4.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

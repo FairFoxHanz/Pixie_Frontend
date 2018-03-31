@@ -1,9 +1,10 @@
 import "./HostedEvents.css";
 import React, { Component } from "react";
 import { fetchEvents } from "../../actions";
+import EventTableRow from "./EventTableRow";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Moment from "moment";
+import moment from "moment";
 
 class HostedEvents extends Component {
   constructor(props) {
@@ -12,16 +13,10 @@ class HostedEvents extends Component {
   }
 
   renderEventsList() {
-    Moment.locale('pl');
+    moment.locale("pl");
     if (this.props.events) {
       return this.props.events.map(event => {
-        return (
-          <tr key={event._id}>
-            <td>{event.name}</td>
-            <td>{event.place}</td>
-            <td>{Moment(event.eventDate).format('MM.DD.YYYY')}</td>
-          </tr>
-        );
+        return <EventTableRow key={event._id} event={event} />;
       });
     } else {
       return (
@@ -44,6 +39,14 @@ class HostedEvents extends Component {
             >
               <i className="material-icons">add</i>
             </Link>
+            <div
+              onClick={() => {
+                this.props.fetchEvents();
+              }}
+              className="btn-floating btn-small waves-effect waves-light pink cyan right refresh-button"
+            >
+              <i className="material-icons">refresh</i>
+            </div>
           </div>
           <table className="highlight">
             <thead>

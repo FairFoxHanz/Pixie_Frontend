@@ -11,13 +11,17 @@ class Header extends Component {
       case false:
         return (
           <li key="login">
-            <a href={`/auth/facebook/`} className="header-button">Login with Facebook</a>
+            <a href={`/auth/facebook/`} className="header-button">
+              Login with Facebook
+            </a>
           </li>
         );
       default:
         return (
-          <li key="logout" >
-            <a href={`/api/logout`} className="header-button">Logout</a>
+          <li key="logout">
+            <a href={`/api/logout`} className="header-button">
+              Logout
+            </a>
           </li>
         );
     }
@@ -33,10 +37,14 @@ class Header extends Component {
         return (
           <ul className="right">
             <li key="guest">
-              <Link to={`/guest/`} className="header-button">Guest</Link>
+              <Link to={`/guest/`} className="header-button">
+                Guest
+              </Link>
             </li>
             <li key="host">
-              <Link to={`/host/`} className="header-button">Host</Link>
+              <Link to={`/host/`} className="header-button">
+                Host
+              </Link>
             </li>{" "}
           </ul>
         );
@@ -50,7 +58,7 @@ class Header extends Component {
           <ul className="left">{this.renderContent()}</ul>
 
           <Link to={this.props.auth ? "/" : "/"} className="brand-logo center">
-          <img className="logo-img" src="/logo.png" alt="logo" />
+            <img className="logo-img" src="/logo.png" alt="logo" />
           </Link>
           {this.renderOptions()}
         </div>

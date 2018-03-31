@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
+import { connect } from "react-redux";
 import EventForm from "./EventForm";
 
-class EventNew extends Component {
-  renderContent() {
+class EventDisplay extends Component {
+  render() {
     return (
       <div className="card">
         <div className="card-content">
@@ -11,17 +11,16 @@ class EventNew extends Component {
             <h5>New Event</h5>
           </div>
           <br />
-          <EventForm />
         </div>
       </div>
     );
   }
-
-  render() {
-    return <div>{this.renderContent()}</div>;
-  }
 }
 
-export default reduxForm({
-  form: "eventForm"
-})(EventNew);
+function mapStateToProps(state) {
+  return {
+    event: state.displayedEvent
+  };
+}
+
+export default connect(mapStateToProps)(EventNew);

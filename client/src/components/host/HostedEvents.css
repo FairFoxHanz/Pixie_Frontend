@@ -1,4 +1,7 @@
-.events-list-title{
-    vertical-align: auto;
+.events-list-title {
+  vertical-align: auto;
 }
 
+.refresh-button {
+  margin-right: 10px;
+}
