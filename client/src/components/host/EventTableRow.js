@@ -34,7 +34,7 @@ class EventTableRow extends Component {
         <td>{moment(this.event.eventDate).format("YYYY-MM-DD HH:mm")}</td>
         <td>
           {(this.state.isHovering && (
-            <Link to={`/event/${this.event._id}`}>Show</Link>
+            <Link to={`/host/event/${this.event._id}`}>Show</Link>
           )) || <span className="row-button">Show</span>}
         </td>
       </tr>

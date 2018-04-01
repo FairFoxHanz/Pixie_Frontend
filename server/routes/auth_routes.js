@@ -1,29 +1,30 @@
 const passport = require("passport");
 const keys = require("../config/keys");
 const fs = require("fs");
+const router = require("express").Router();
 
-module.exports = app => {
-  app.get(
-    "/auth/facebook",
+router.get(
+    "/facebook",
     passport.authenticate("facebook", {
       scope: ["public_profile"]
     })
   );
 
-  app.get(
-    "/auth/facebook/callback",
+  router.get(
+    "/facebook/callback",
     passport.authenticate("facebook"),
     (req, res) => {
       res.redirect(`${keys.redirectDomain}/`);
     }
   );
 
-  app.get("/api/logout", (req, res) => {
+  router.get("/logout", (req, res) => {
     req.logout();
     res.redirect(`${keys.redirectDomain}/`);
   });
 
-  app.get("/api/current_user", (req, res) => {
+  router.get("/current_user", (req, res) => {
     res.send(req.user);
   });
-};
+
+module.exports = router;

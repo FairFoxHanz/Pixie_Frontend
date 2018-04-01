@@ -3,15 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/auth/facebook/": {
+    "/auth/*": {
       "secure": false,
       "target": "https://localhost:5000"
     },
     "/api/*": {
-      "secure": false,
-      "target": "https://localhost:5000"
-    },
-    "/events/*": {
       "secure": false,
       "target": "https://localhost:5000"
     }

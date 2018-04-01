@@ -19,7 +19,7 @@ class Header extends Component {
       default:
         return (
           <li key="logout">
-            <a href={`/api/logout`} className="header-button">
+            <a href={`/auth/logout`} className="header-button">
               Logout
             </a>
           </li>

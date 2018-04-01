@@ -1,9 +1,9 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_EVENTS, SUBMIT_EVENT } from "./types";
+import { FETCH_USER, FETCH_EVENTS, FETCH_EVENT, SUBMIT_EVENT } from "./types";
 
 export const fetchUser = () => {
   const user = axios
-    .get(`/api/current_user`, { withCredentials: true })
+    .get(`/auth/current_user`, { withCredentials: true })
     .then(response => response.data);
 
   return {
@@ -12,9 +12,20 @@ export const fetchUser = () => {
   };
 };
 
+export const fetchEvent = (eventId) => {
+  const event = axios
+    .get(`/api/events/details?eventId=${eventId}`, { withCredentials: true })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_EVENT,
+    payload: event
+  };
+};
+
 export const fetchEvents = () => {
   const events = axios
-    .get(`/events/list`, { withCredentials: true })
+    .get(`/api/events/list`, { withCredentials: true })
     .then(response => response.data);
 
   return {
@@ -24,7 +35,9 @@ export const fetchEvents = () => {
 };
 
 export const createEvent = (event, history) => {
-  const res = axios.post(`/events/create`, event, { withCredentials: true });
+  const res = axios.post(`/api/events/create`, event, {
+    withCredentials: true
+  });
 
   return {
     type: SUBMIT_EVENT,

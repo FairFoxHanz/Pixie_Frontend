@@ -11,9 +11,11 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 
+const events = require("./routes/event_routes");
+const auth = require("./routes/auth_routes");
+
 const https = require("https");
 const fs = require("fs");
-
 //Certificates for https
 const options = {
   key: fs.readFileSync(__dirname + "/config/certificates/pixie.key"),
@@ -33,8 +35,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 
-require("./routes/auth_routes")(app);
-require("./routes/event_routes")(app);
+app.use("/api/events", events);
+app.use("/auth", auth);
 
 if (process.env.NODE_ENV == "production") {
   app.use(express.static("client/build"));

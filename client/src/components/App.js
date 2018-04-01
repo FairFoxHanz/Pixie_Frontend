@@ -7,6 +7,7 @@ import Header from "./Header";
 import Landing from "./Landing";
 import EventNew from "./host/events/EventNew";
 import HostedEvents from "./host/HostedEvents";
+import EventDisplay from "./host/events/EventDisplay";
 
 class App extends Component {
   componentDidMount() {
@@ -22,7 +23,11 @@ class App extends Component {
           exact
           path="/host/create"
           component={EventNew}
-        />
+        />, <Route
+        key="host-display"
+        path="/host/event/:eventId"
+        component={EventDisplay}
+      />
       ];
     }
   }
