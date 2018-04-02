@@ -3,18 +3,19 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { createEvent } from "../../../actions";
-import EventField from "./EventField";
+import { createEvent } from "../../../../actions";
+import renderField from "./renderField";
 import EventDatePicker from "./EventDatePicker";
 import formFields from "./formFields";
-import moment from "moment";
+import EventInventory from "./EventInventory";
+import validate from "./validate";
 
 class EventForm extends Component {
   renderFields() {
     return _.map(formFields, ({ name, label }) => (
       <Field
         key={name}
-        component={EventField}
+        component={renderField}
         type="text"
         label={label}
         name={name}
@@ -34,6 +35,7 @@ class EventForm extends Component {
             label="Date"
             name="date"
           />
+          <EventInventory label="Inventory" />
           <Link
             to="/host"
             onClick={() =>
@@ -50,26 +52,6 @@ class EventForm extends Component {
       </div>
     );
   }
-}
-
-function validate(values) {
-  const errors = {};
-
-  _.forEach(formFields, ({ name }) => {
-    if (!values[name]) {
-      errors[name] = `You must provide ${name}!`;
-    }
-  });
-
-  if (!values.date) {
-    errors.date = `You must provide date of event!`;
-  } else {
-    if (!moment(values.date).isAfter(Date.now())) {
-      errors.date = "Date can't be in past.";
-    }
-  }
-
-  return errors;
 }
 
 function mapStateToProps(state) {

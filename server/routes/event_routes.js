@@ -16,12 +16,13 @@ router.get("/list", requireLogin, async (req, res) => {
 });
 
 router.post("/create", requireLogin, async (req, res) => {
-  const { name, place, date } = req.body;
+  const { name, place, date, inventory } = req.body;
   
   const event = new Event({
     name,
     place,
     eventDate: Date.parse(date),
+    inventory,
     _user: req.user.id
   });
   

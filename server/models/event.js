@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const inventorySchema = require("./inventory");
 
 const eventSchema = new Schema({
   name: {
@@ -14,6 +15,7 @@ const eventSchema = new Schema({
     type: Date,
     required: true
   },
+  inventory: [inventorySchema],
   _user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 

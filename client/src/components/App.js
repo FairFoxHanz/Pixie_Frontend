@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 import Header from "./Header";
 import Landing from "./Landing";
-import EventNew from "./host/events/EventNew";
+import EventNew from "./host/events/create/EventNew";
 import HostedEvents from "./host/HostedEvents";
 import EventDisplay from "./host/events/EventDisplay";
 
