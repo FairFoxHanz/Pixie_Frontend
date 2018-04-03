@@ -1,13 +1,12 @@
 import React from "react";
 import { Field, FieldArray } from "redux-form";
-import { Tooltip } from "react-tippy";
+import TooltippedButton from "../../../TooltippedButton";
 import renderField from "./renderField";
 
 const renderInventory = ({ fields, meta: { touched, error } }) => (
   <ul>
     {fields.map((item, index) => (
       <li key={index}>
-        <h6>#{index + 1}</h6>
         <div className="row">
           <div className="col s6">
             <Field
@@ -20,7 +19,7 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
           <div className="col s3">
             <Field
               name={`${item}.amount`}
-              type="text"
+              type="number"
               component={renderField}
               label="Amount"
             />
@@ -34,42 +33,23 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
             />
           </div>
           <div className="col s1">
-            <Tooltip
-              followCursor
-              theme="dark"
+            <TooltippedButton
+              className="btn-floating btn-small waves-effect waves-light pink accent-3 right"
+              onClick={() => fields.remove(index)}
               title="Remove item"
-              position="top"
-              trigger="mouseenter"
-            >
-              <button
-                className="btn-floating btn-small waves-effect waves-light pink accent-3 right"
-                type="button"
-                title="Remove item"
-                onClick={() => fields.remove(index)}
-              >
-                <i className="material-icons">delete</i>
-              </button>
-            </Tooltip>
+              icon="delete"
+            />
           </div>
         </div>
       </li>
     ))}
     <li>
-      <Tooltip
-        followCursor
-        theme="dark"
+      <TooltippedButton
         title="Add new item"
-        position="top"
-        trigger="mouseenter"
-      >
-        <button
-          type="button"
-          className="btn-floating btn-small waves-effect waves-light pink accent-3"
-          onClick={() => fields.push({})}
-        >
-          <i className="material-icons">add_box</i>
-        </button>
-      </Tooltip>
+        onClick={() => fields.push({})}
+        className="btn-floating btn-small waves-effect waves-light pink accent-3"
+        icon="add_box"
+      />
     </li>
   </ul>
 );

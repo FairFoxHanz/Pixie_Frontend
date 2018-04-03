@@ -4,9 +4,9 @@ import React, { Component } from "react";
 import { fetchEvents } from "../../actions";
 import EventTableRow from "./EventTableRow";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import moment from "moment";
-import { Tooltip } from "react-tippy";
+import TooltippedButton from "../TooltippedButton";
+import TooltippedLink from "../TooltippedLink";
 
 class HostedEvents extends Component {
   constructor(props) {
@@ -35,36 +35,20 @@ class HostedEvents extends Component {
         <div className="card-content">
           <div className="events-list-title">
             <h5 className="left">Hosted Events</h5>
-            <Tooltip
-              followCursor
-              theme="dark"
+            <TooltippedLink
               title="Create new event"
-              position="top"
-              trigger="mouseenter"
-            >
-              <Link
-                to="/host/create"
-                className="btn-floating btn-small waves-effect waves-light pink accent-3 right"
-              >
-                <i className="material-icons">add</i>
-              </Link>
-            </Tooltip>
-            <Tooltip
-              followCursor
-              theme="dark"
+              icon="add"
+              className="btn-floating btn-small waves-effect waves-light pink accent-3 right"
+              to="/host/create"
+            />
+            <TooltippedButton
               title="Refresh events list"
-              position="top"
-              trigger="mouseenter"
-            >
-              <div
-                onClick={() => {
-                  this.props.fetchEvents();
-                }}
-                className="btn-floating btn-small waves-effect waves-light pink cyan right refresh-button"
-              >
-                <i className="material-icons">refresh</i>
-              </div>
-            </Tooltip>
+              onClick={() => {
+                this.props.fetchEvents();
+              }}
+              className="btn-floating btn-small waves-effect waves-light pink cyan right refresh-button"
+              icon="refresh"
+            />
           </div>
           <table className="highlight">
             <thead>
