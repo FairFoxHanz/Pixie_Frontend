@@ -17,7 +17,7 @@ const eventSchema = new Schema({
     required: true
   },
   inventory: [inventorySchema],
-  invitations: [invitationSchema],
+  invitations: [String],
   _user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 

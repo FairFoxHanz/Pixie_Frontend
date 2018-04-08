@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_EVENTS, FETCH_EVENT, SUBMIT_EVENT } from "./types";
+import { FETCH_USER, FETCH_EVENTS, FETCH_EVENT, SUBMIT_EVENT, FETCH_INVITATIONS } from "./types";
 
 export const fetchUser = () => {
   const user = axios
@@ -42,5 +42,16 @@ export const createEvent = (event, history) => {
   return {
     type: SUBMIT_EVENT,
     payload: res.data
+  };
+};
+
+export const fetchInvitations = () => {
+  const invitations = axios
+    .get(`/api/invitations/list`, { withCredentials: true })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_INVITATIONS,
+    payload: invitations
   };
 };

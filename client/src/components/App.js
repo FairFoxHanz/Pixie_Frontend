@@ -8,13 +8,14 @@ import Landing from "./Landing";
 import EventNew from "./host/events/create/EventNew";
 import HostedEvents from "./host/HostedEvents";
 import EventDisplay from "./host/events/EventDisplay";
+import InvitationsList from "./guest/InvitationsList";
 
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
   }
 
-  addAuthorizedRoutes() {
+  addAuthorizedHostRoutes() {
     if (this.props.auth) {
       return [
         <Route key="host" exact path="/host" component={HostedEvents} />,
@@ -31,6 +32,14 @@ class App extends Component {
       ];
     }
   }
+  
+  addAuthorizedGuestRoutes() {
+    if (this.props.auth) {
+      return [
+        <Route key="guest" exact path="/guest" component={InvitationsList} />
+      ];
+    }
+  }
 
   render() {
     return (
@@ -39,7 +48,8 @@ class App extends Component {
           <div className="top-bar" />
           <Header />
           <Route exact path="/" component={Landing} />
-          {this.addAuthorizedRoutes()}
+          {this.addAuthorizedHostRoutes()}
+          {this.addAuthorizedGuestRoutes()}
         </div>
       </BrowserRouter>
     );
