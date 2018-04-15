@@ -41,7 +41,7 @@ class EventForm extends Component {
             onClick={() =>
               createEvent(this.props.formValues, this.props.history)
             }
-            className="teal btn-flat right white-text blue cyan"
+            className="btn-flat right white-text cyan"
           >
             Submit <i className="material-icons right">done</i>
           </Link>

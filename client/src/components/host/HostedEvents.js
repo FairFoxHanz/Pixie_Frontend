@@ -46,7 +46,7 @@ class HostedEvents extends Component {
               onClick={() => {
                 this.props.fetchEvents();
               }}
-              className="btn-floating btn-small waves-effect waves-light pink cyan right refresh-button"
+              className="btn-floating btn-small waves-effect waves-light cyan right refresh-button"
               icon="refresh"
             />
           </div>
