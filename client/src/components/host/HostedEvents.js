@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import TooltippedButton from "../TooltippedButton";
 import TooltippedLink from "../TooltippedLink";
+import Loader from "../Loader";
 
 class HostedEvents extends Component {
   constructor(props) {
@@ -14,18 +15,41 @@ class HostedEvents extends Component {
     this.props.fetchEvents();
   }
 
-  renderEventsList() {
-    moment.locale("pl");
-    if (this.props.events) {
-      return this.props.events.map(event => {
-        return <EventTableRow key={event._id} event={event} />;
-      });
+  renderEventsTable(events) {
+    if (!events) {
+      return (
+        <table className="highlight">
+          <Loader />
+        </table>
+      );
+    } else if (events.length === 0) {
+      return (
+        <table className="highlight">
+          You have not created any events yet.
+        </table>
+      );
     } else {
       return (
-        <tr>
-          <td>Loading events...</td>
-        </tr>
+        <table className="highlight">
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Place</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderEventRow(events)}</tbody>
+        </table>
       );
+    }
+  }
+
+  renderEventRow(events) {
+    moment.locale("pl");
+    if (events) {
+      return events.map(event => {
+        return <EventTableRow key={event._id} event={event} />;
+      });
     }
   }
 
@@ -50,16 +74,7 @@ class HostedEvents extends Component {
               icon="refresh"
             />
           </div>
-          <table className="highlight">
-            <thead>
-              <tr>
-                <th>Event Name</th>
-                <th>Place</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderEventsList()}</tbody>
-          </table>
+          {this.renderEventsTable(this.props.events)}
         </div>
       </div>
     );

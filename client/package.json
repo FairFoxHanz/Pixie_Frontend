@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "font-awesome": "^4.7.0",
     "input-moment": "^0.4.0",
     "materialize-css": "^0.100.2",
+    "materialize-social": "^1.0.3",
     "react": "^16.2.0",
     "react-datepicker": "^1.4.0",
     "react-dom": "^16.2.0",

@@ -4,6 +4,8 @@ import { fetchEvent, fetchGuests } from "../../../../actions";
 import { Link } from "react-router-dom";
 import renderGuests from "./renderGuests";
 import renderInventory from "./renderInventory";
+import renderDetails from "./renderDetails";
+import Loader from "../../../Loader";
 
 class EventDisplay extends Component {
   componentWillMount() {
@@ -15,11 +17,12 @@ class EventDisplay extends Component {
     console.log(event);
     return (
       <div>
-        <div>Event name: {event.name}</div>
-        <div>Event place: {event.place}</div>
-        <div>Event date: {event.eventDate}</div>
+        <div className="events-list-title">
+            <h5>{event.name}</h5>
+          </div>
+        {renderDetails(event)}
         {renderGuests(guests)}
-        {renderInventory(event)}
+        {renderInventory(event.inventory)}
       </div>
     );
   }
@@ -35,13 +38,10 @@ class EventDisplay extends Component {
           <Link to={(isUserAnOwner?'/host':'/guest')}>
             <i className="material-icons">arrow_back</i>
           </Link>
-          <div className="events-list-title">
-            <h5>Event Details</h5>
-          </div>
           {this.props.event ? (
             this.renderDetails(this.props.event, this.props.guests)
           ) : (
-            <div> Loading event... </div>
+            <div className="center"><Loader /></div>
           )}
         </div>
       </div>

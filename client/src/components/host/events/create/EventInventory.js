@@ -5,6 +5,7 @@ import renderField from "./renderField";
 
 const renderInventory = ({ fields, meta: { touched, error } }) => (
   <ul>
+    {fields.length > 0 ? renderLabels() : ""}
     {fields.map((item, index) => (
       <li key={index}>
         <div className="row">
@@ -13,7 +14,6 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
               name={`${item}.name`}
               type="text"
               component={renderField}
-              label="Name"
             />
           </div>
           <div className="col s3">
@@ -21,7 +21,6 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
               name={`${item}.amount`}
               type="number"
               component={renderField}
-              label="Amount"
             />
           </div>
           <div className="col s2">
@@ -29,7 +28,6 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
               name={`${item}.unit`}
               type="text"
               component={renderField}
-              label="Unit"
             />
           </div>
           <div className="col s1">
@@ -53,6 +51,10 @@ const renderInventory = ({ fields, meta: { touched, error } }) => (
     </li>
   </ul>
 );
+
+const renderLabels = () => {
+ return (<li className="row"><label className="col s6">Name</label><label className="col s3">Amount</label><label className="col s2">Unit</label></li>)
+}
 
 const InventoryList = props => {
   const { label } = props;

@@ -6,6 +6,7 @@ import InvitationTableRow from "./InvitationTableRow";
 import { connect } from "react-redux";
 import moment from "moment";
 import TooltippedButton from "../TooltippedButton";
+import Loader from "../Loader";
 
 class InvitationsList extends Component {
   constructor(props) {
@@ -13,18 +14,47 @@ class InvitationsList extends Component {
     this.props.fetchInvitations();
   }
 
-  renderInvitationList() {
-    moment.locale("pl");
-    if (this.props.invitations) {
-      return this.props.invitations.map(invitation => {
-        return <InvitationTableRow key={invitation._id} invitation={invitation} />;
-      });
-    } else {
+  renderInvitationsTable(invitations) {
+    if (!invitations) {
       return (
-        <tr>
-          <td>Loading invitations...</td>
-        </tr>
+        <table className="highlight">
+          <div className="center">
+            <Loader />
+          </div>
+        </table>
       );
+    } else if (invitations.length === 0) {
+      return (
+        <table className="highlight">
+          <span>You have no invitations yet...</span>
+        </table>
+      );
+    } else
+      return (
+        <table className="highlight">
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Place</th>
+              <th>Date</th>
+              <th>Inventory</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderInvitationRows(invitations)}</tbody>
+        </table>
+      );
+  }
+
+  renderInvitationRows(invitations) {
+    moment.locale("pl");
+    if (invitations) {
+      if (invitations.length > 0) {
+        return invitations.map(invitation => {
+          return (
+            <InvitationTableRow key={invitation._id} invitation={invitation} />
+          );
+        });
+      }
     }
   }
 
@@ -43,17 +73,7 @@ class InvitationsList extends Component {
               icon="refresh"
             />
           </div>
-          <table className="highlight">
-            <thead>
-              <tr>
-                <th>Event Name</th>
-                <th>Place</th>
-                <th>Date</th>
-                <th>Inventory</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderInvitationList()}</tbody>
-          </table>
+          {this.renderInvitationsTable(this.props.invitations)}
         </div>
       </div>
     );

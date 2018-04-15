@@ -1,13 +1,14 @@
 import React from "react";
+import Loader from "../../../Loader";
 
-export default function renderInventory(event) {
+export default function renderInventory(inventory) {
   return (
     <div className="row">
       <div className="col s12 m12">
         <div className="card">
           <div className="card-content">
             <div className="card-title">Event inventory</div>
-            {renderInventoryTable(event.inventory)}
+            {renderInventoryTable(inventory)}
           </div>
         </div>
       </div>
@@ -16,6 +17,13 @@ export default function renderInventory(event) {
 }
 
 function renderInventoryTable(inventory) {
+  if (!inventory) {
+    return (
+      <div className="center">
+        <Loader size="small"/>
+      </div>
+    );
+  }
   if (inventory.length === 0) {
     return <p>No inventory added for this event</p>;
   } else {

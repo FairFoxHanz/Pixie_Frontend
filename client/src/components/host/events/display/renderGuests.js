@@ -1,7 +1,7 @@
 import React from "react";
+import Loader from "../../../Loader";
 
 export default function renderGuests(guests) {
-  guests = guests ? guests : [];
   return (
     <div className="row">
       <div className="col s12 m12">
@@ -17,6 +17,13 @@ export default function renderGuests(guests) {
 }
 
 function renderGuestsTable(guests) {
+  if (!guests) {
+    return (
+      <div className="center">
+        <Loader size="small" />
+      </div>
+    );
+  }
   if (guests.length === 0) {
     return <p>No guests are invited yet</p>;
   } else {

@@ -11,8 +11,8 @@ class Header extends Component {
       case false:
         return (
           <li key="login">
-            <a href={`/auth/facebook/`} className="header-button">
-              Login with Facebook
+            <a href={`/auth/facebook/`} className="header-button login-button">
+              Facebook Login
             </a>
           </li>
         );
