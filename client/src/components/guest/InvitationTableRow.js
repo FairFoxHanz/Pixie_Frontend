@@ -35,7 +35,7 @@ class InvitationTableRow extends Component {
         <td>{(this.invitation.invitation.inventoryAsked.length > 0 ? "Yes" : "No")}</td>
         <td>
           {(this.state.isHovering && (
-            <Link to={`/guest/invitation/${this.invitation.invitation._id}`}>Show</Link>
+            <Link to={`/event/${this.invitation.invitation.eventId}`}>Show</Link>
           )) || <span className="row-button">Show</span>}
         </td>
       </tr>

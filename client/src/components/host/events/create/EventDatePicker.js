@@ -1,3 +1,4 @@
+import "./EventDatePicker.css"
 import React from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -31,6 +32,7 @@ class EventDatePicker extends React.Component {
           timeFormat="HH:mm"
           timeIntervals={15}
           timeCaption="Time"
+          popperClassName="datepicker-popper"
         />
         <div className="red-text" style={{ marginBottom: "20px" }}>
           {touched && error}

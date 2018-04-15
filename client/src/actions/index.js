@@ -1,5 +1,12 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_EVENTS, FETCH_EVENT, SUBMIT_EVENT, FETCH_INVITATIONS } from "./types";
+import {
+  FETCH_USER,
+  FETCH_EVENTS,
+  FETCH_EVENT,
+  SUBMIT_EVENT,
+  FETCH_INVITATIONS,
+  FETCH_GUESTS
+} from "./types";
 
 export const fetchUser = () => {
   const user = axios
@@ -12,7 +19,7 @@ export const fetchUser = () => {
   };
 };
 
-export const fetchEvent = (eventId) => {
+export const fetchEvent = eventId => {
   const event = axios
     .get(`/api/events/details?eventId=${eventId}`, { withCredentials: true })
     .then(response => response.data);
@@ -20,6 +27,17 @@ export const fetchEvent = (eventId) => {
   return {
     type: FETCH_EVENT,
     payload: event
+  };
+};
+
+export const fetchGuests = eventId => {
+  const guests = axios
+    .get(`/api/events/guests?eventId=${eventId}`, { withCredentials: true })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_GUESTS,
+    payload: guests
   };
 };
 

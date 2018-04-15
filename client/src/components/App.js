@@ -7,7 +7,7 @@ import Header from "./Header";
 import Landing from "./Landing";
 import EventNew from "./host/events/create/EventNew";
 import HostedEvents from "./host/HostedEvents";
-import EventDisplay from "./host/events/EventDisplay";
+import EventDisplay from "./host/events/display/EventDisplay";
 import InvitationsList from "./guest/InvitationsList";
 
 class App extends Component {
@@ -26,7 +26,7 @@ class App extends Component {
           component={EventNew}
         />, <Route
         key="host-display"
-        path="/host/event/:eventId"
+        path="/event/:eventId"
         component={EventDisplay}
       />
       ];
