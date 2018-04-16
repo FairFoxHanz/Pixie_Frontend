@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchEvent, fetchGuests } from "../../../../actions";
 import { Link } from "react-router-dom";
-import renderGuests from "./renderGuests";
-import renderInventory from "./renderInventory";
-import renderDetails from "./renderDetails";
+import EventGuests from "./EventGuests";
+import EventInventory from "./EventInventory";
+import EventDetails from "./EventDetails";
 import Loader from "../../../Loader";
 
 class EventDisplay extends Component {
@@ -13,35 +13,43 @@ class EventDisplay extends Component {
     this.props.fetchGuests(this.props.match.params.eventId);
   }
 
-  renderDetails(event, guests = []) {
-    console.log(event);
+  renderDetails(event, guests = [], isUserAnOwner) {
     return (
       <div>
         <div className="events-list-title">
-            <h5>{event.name}</h5>
-          </div>
-        {renderDetails(event)}
-        {renderGuests(guests)}
-        {renderInventory(event.inventory)}
+          <h5>{event.name}</h5>
+        </div>
+        <EventDetails event={event} isUserAnOwner={isUserAnOwner} />
+        <EventGuests guests={guests} isUserAnOwner={isUserAnOwner} />
+        <EventInventory
+          inventory={event.inventory}
+          isUserAnOwner={isUserAnOwner}
+        />
       </div>
     );
   }
 
   render() {
     let isUserAnOwner;
-    if(this.props.event){
-    isUserAnOwner = this.props.auth._id === this.props.event._user;
-  }
+    if (this.props.event) {
+      isUserAnOwner = this.props.auth._id === this.props.event._user;
+    }
     return (
       <div className="card">
         <div className="card-content">
-          <Link to={(isUserAnOwner?'/host':'/guest')}>
+          <Link to={isUserAnOwner ? "/host" : "/guest"}>
             <i className="material-icons">arrow_back</i>
           </Link>
           {this.props.event ? (
-            this.renderDetails(this.props.event, this.props.guests)
+            this.renderDetails(
+              this.props.event,
+              this.props.guests,
+              isUserAnOwner
+            )
           ) : (
-            <div className="center"><Loader /></div>
+            <div className="center">
+              <Loader />
+            </div>
           )}
         </div>
       </div>

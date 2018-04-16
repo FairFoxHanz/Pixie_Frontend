@@ -14,7 +14,6 @@ export default props => {
       <button
         className={className}
         type="button"
-        title={title}
         onClick={onClick}
       >
         <i className="material-icons">{icon}</i>

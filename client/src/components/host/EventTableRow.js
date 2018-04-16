@@ -1,25 +1,13 @@
 import "./EventTableRow.css";
-import React, { Component } from "react";
+import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import HoveringStateComponent from "../HoveringStateComponent"
 
-class EventTableRow extends Component {
+class EventTableRow extends HoveringStateComponent {
   constructor(props) {
     super(props);
     this.event = props.event;
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.state = {
-      isHovering: false
-    };
-  }
-
-  handleMouseEnter() {
-    this.setState({ isHovering: true });
-  }
-
-  handleMouseLeave() {
-    this.setState({ isHovering: false });
   }
 
   render() {

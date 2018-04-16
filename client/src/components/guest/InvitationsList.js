@@ -18,9 +18,15 @@ class InvitationsList extends Component {
     if (!invitations) {
       return (
         <table className="highlight">
-          <div className="center">
-            <Loader />
-          </div>
+          <tbody>
+            <tr>
+              <td>
+                <div className="center">
+                  <Loader />
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       );
     } else if (invitations.length === 0) {
@@ -51,7 +57,7 @@ class InvitationsList extends Component {
       if (invitations.length > 0) {
         return invitations.map(invitation => {
           return (
-            <InvitationTableRow key={invitation._id} invitation={invitation} />
+            <InvitationTableRow key={invitation.invitation._id} invitation={invitation} />
           );
         });
       }

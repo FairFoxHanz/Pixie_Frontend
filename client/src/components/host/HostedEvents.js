@@ -19,7 +19,15 @@ class HostedEvents extends Component {
     if (!events) {
       return (
         <table className="highlight">
-          <Loader />
+          <tbody>
+            <tr>
+              <td>
+                <div className="center">
+                  <Loader />
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       );
     } else if (events.length === 0) {
