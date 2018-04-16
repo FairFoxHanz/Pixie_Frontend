@@ -7,9 +7,9 @@ const Invitation = mongoose.model("invitations");
 const User = mongoose.model("users");
 
 router.get("/details", requireLogin, async (req, res) => {
-  const event = await Event.find({ _id: req.query.eventId });
+  const event = await Event.findOne({ _id: req.query.eventId });
 
-  res.send(event[0]);
+  res.send(event);
 });
 
 router.get("/list", requireLogin, async (req, res) => {
@@ -20,10 +20,13 @@ router.get("/list", requireLogin, async (req, res) => {
 
 router.get("/guests", requireLogin, async (req, res) => {
   try {
-    const invitations = await Invitation.find({ eventId: req.query.eventId });
+    const event = await Event.findOne({ _id: req.query.eventId });
+    const invitationsId = event.invitations;
+
     const guestsList = await Promise.all(
-      invitations.map(async invitation => {
+      invitationsId.map(async invitationId => {
         const guest = {};
+        const invitation = await Invitation.findOne({ _id: invitationId });
         const user = await User.findOne({
           _id: new ObjectID(invitation.invitedId)
         });
@@ -31,6 +34,7 @@ router.get("/guests", requireLogin, async (req, res) => {
         guest.id = user._id;
         guest.inventoryAsked = invitation.inventoryAsked;
         guest.inventoryAccepted = invitation.inventoryAccepted;
+
         return guest;
       })
     );
