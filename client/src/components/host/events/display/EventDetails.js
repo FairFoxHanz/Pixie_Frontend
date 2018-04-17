@@ -1,10 +1,10 @@
 import "./EventDetails.css";
 import React from "react";
 import TooltippedButton from "../../../TooltippedButton";
-import HoveringStateComponent from "../../../HoveringStateComponent";
+import StateComponent from "../../../StateComponent";
+import EditEventDetailsModal from "./EditEventDetailsModal";
 
-class EventDetails extends HoveringStateComponent {
-
+class EventDetails extends StateComponent {
   render() {
     return (
       <div className="row">
@@ -16,15 +16,17 @@ class EventDetails extends HoveringStateComponent {
           >
             {this.state.isHovering &&
               this.props.isUserAnOwner && (
-               <TooltippedButton
+                <TooltippedButton
                   className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
                   icon="edit"
                   title="Edit Event"
-                  onClick={() => {
-                    console.log("Clicked edit event");
-                  }}
+                  onClick={this.toggleModal}
                 />
               )}
+            <EditEventDetailsModal
+              show={this.state.isOpen}
+              onClose={this.toggleModal}
+            />
             <div className="card-content">
               <div className="card-title">
                 <span>Event Details </span>

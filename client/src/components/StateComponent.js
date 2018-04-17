@@ -1,12 +1,13 @@
 import { Component } from "react";
 
-class HoveringStateComponent extends Component {
+class StateComponent extends Component {
   constructor(props) {
     super(props);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.state = {
-      isHovering: false
+      isHovering: false,
+      isOpen: false 
     };
   }
 
@@ -17,6 +18,13 @@ class HoveringStateComponent extends Component {
   handleMouseLeave() {
     this.setState({ isHovering: false });
   }
+
+  toggleModal = () => {
+    this.setState({
+      isHovering: false,
+      isOpen: !this.state.isOpen
+    });
+  };
 }
 
-export default HoveringStateComponent;
+export default StateComponent;

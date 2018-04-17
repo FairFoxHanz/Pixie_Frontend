@@ -1,9 +1,11 @@
 import React from "react";
 import TooltippedButton from "../../../TooltippedButton";
-import HoveringStateComponent from "../../../HoveringStateComponent";
+import StateComponent from "../../../StateComponent";
 import Loader from "../../../Loader";
+import InviteGuestsModal from "./InviteGuestsModal";
 
-class EventGuests extends HoveringStateComponent {
+class EventGuests extends StateComponent {
+
   render() {
     return (
       <div className="row">
@@ -19,11 +21,10 @@ class EventGuests extends HoveringStateComponent {
                   className="btn-floating btn-small waves-effect waves-light red right edit-button"
                   icon="add"
                   title="Add Guests"
-                  onClick={() => {
-                    console.log("Clicked Add Guests");
-                  }}
+                  onClick={this.toggleModal}
                 />
               )}
+            <InviteGuestsModal show={this.state.isOpen} onClose={this.toggleModal} />
             <div className="card-content">
               <div className="card-title">Guests</div>
               {this.renderGuestsTable(this.props.guests)}

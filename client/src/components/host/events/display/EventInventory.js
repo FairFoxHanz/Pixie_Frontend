@@ -1,15 +1,15 @@
 import React from "react";
 import TooltippedButton from "../../../TooltippedButton";
-import HoveringStateComponent from "../../../HoveringStateComponent";
+import StateComponent from "../../../StateComponent";
 import Loader from "../../../Loader";
+import EditInventoryModal from "./EditInventoryModal";
 
-class EventInventory extends HoveringStateComponent {
-
+class EventInventory extends StateComponent {
   render() {
     return (
       <div className="row">
         <div className="col s12 m12">
-        <div
+          <div
             className="card"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
@@ -20,11 +20,13 @@ class EventInventory extends HoveringStateComponent {
                   className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
                   icon="edit"
                   title="Edit Inventory"
-                  onClick={() => {
-                    console.log("Clicked Edit Inventory");
-                  }}
+                  onClick={this.toggleModal}
                 />
               )}
+            <EditInventoryModal
+              show={this.state.isOpen}
+              onClose={this.toggleModal}
+            />
             <div className="card-content">
               <div className="card-title">Event inventory</div>
               {this.renderInventoryTable(this.props.inventory)}
