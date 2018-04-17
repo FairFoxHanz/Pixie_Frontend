@@ -6,7 +6,7 @@ import Modal from "./Modal";
 class EditEventDetailsModal extends React.Component {
   render() {
     return (
-        <Modal onClose={this.props.onClose} show={this.props.show}>
+        <Modal modalTitle={"Edit Event"} onClose={this.props.onClose} show={this.props.show}>
            Edit Event Details Modal!
         </Modal>
     );

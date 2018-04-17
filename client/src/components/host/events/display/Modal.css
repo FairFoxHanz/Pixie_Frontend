@@ -16,6 +16,13 @@
   border-radius: 5px;
   max-width: 500px;
   min-height: 50px;
-  margin: auto auto;
+  margin: 100px auto;
 }
 
+.modal-content{
+    margin: 10px auto;
+}
+
+.close-modal-button{
+    margin-top: -10px;
+}

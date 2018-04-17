@@ -6,7 +6,7 @@ import Modal from "./Modal";
 class InviteGuestsModal extends React.Component {
   render() {
     return (
-        <Modal onClose={this.props.onClose} show={this.props.show}>
+        <Modal modalTitle={"Invite Guests"} onClose={this.props.onClose} show={this.props.show}>
             Invite Guests Modal!
         </Modal>
     );
