@@ -1,6 +1,5 @@
 import "./Modal.css";
 import React from "react";
-import TooltippedButton from "../../../TooltippedButton";
 import Modal from "./Modal";
 
 class EditInventoryModal extends React.Component {

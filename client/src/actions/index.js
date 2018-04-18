@@ -5,7 +5,8 @@ import {
   FETCH_EVENT,
   SUBMIT_EVENT,
   FETCH_INVITATIONS,
-  FETCH_GUESTS
+  FETCH_GUESTS,
+  FETCH_USERS
 } from "./types";
 
 export const fetchUser = () => {
@@ -16,6 +17,17 @@ export const fetchUser = () => {
   return {
     type: FETCH_USER,
     payload: user
+  };
+};
+
+export const fetchUsers = () => {
+  const users = axios
+    .get(`/api/users/list`, { withCredentials: true })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_USERS,
+    payload: users
   };
 };
 

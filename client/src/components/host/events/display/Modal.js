@@ -15,7 +15,7 @@ class Modal extends Component {
             <div className="card-content">
               <span className="card-title">{this.props.modalTitle}</span>
               <div className="modal-content">{this.props.children}</div>
-              <div class="card-action">
+              <div className="card-action">
                 <TooltippedButton
                   className="btn-floating btn-small waves-effect waves-light red left close-modal-button"
                   icon="close"

@@ -12,6 +12,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 
 const events = require("./routes/event_routes");
+const users = require("./routes/users_routes");
 const invitations = require("./routes/invitation_routes");
 const auth = require("./routes/auth_routes");
 
@@ -38,6 +39,7 @@ app.use(bodyParser.json());
 
 app.use("/api/events", events);
 app.use("/api/invitations", invitations);
+app.use("/api/users", users);
 app.use("/auth", auth);
 
 if (process.env.NODE_ENV == "production") {
