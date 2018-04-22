@@ -2,7 +2,7 @@ import "./EventTableRow.css";
 import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import StateComponent from "../StateComponent"
+import StateComponent from "../StateComponent";
 
 class EventTableRow extends StateComponent {
   constructor(props) {

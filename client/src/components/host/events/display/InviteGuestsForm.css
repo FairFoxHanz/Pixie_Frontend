@@ -1,3 +1,4 @@
-.fixed [type="checkbox"] + label, .fixed [type="radio"] + label {
-    pointer-events: auto;
-  }
+.fixed [type="checkbox"] + label,
+.fixed [type="radio"] + label {
+  pointer-events: auto;
+}

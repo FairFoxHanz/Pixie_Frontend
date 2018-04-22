@@ -4,6 +4,7 @@ const router = require("express").Router();
 const Invitation = mongoose.model("invitations");
 const Inventory = mongoose.model("inventory");
 const Event = mongoose.model("events");
+const {parseInvitationIdsToInvitations} = require("../parsers/InvitationsParser");
 
 router.post("/respond", requireLogin, async (req, res) => {
   const { response, inventoryAccepted } = req.body;
@@ -32,8 +33,10 @@ router.post("/invite", requireLogin, async (req, res) => {
     );
 
     event.invitations.push(...filteredInvitations);
-    event.save();
-    res.status(200).send({ event });
+    await event.save();
+    const guestsList = await parseInvitationIdsToInvitations(event.invitations);
+
+    res.status(200).send(guestsList);
   } catch (error) {
     res.status(422).send(error);
   }

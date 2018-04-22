@@ -1,6 +1,7 @@
 import "./Modal.css";
+import _ from "lodash";
 import React from "react";
-import { fetchUsers } from "../../../../actions";
+import { fetchUsers, inviteGuests } from "../../../../actions";
 import Modal from "./Modal";
 import { connect } from "react-redux";
 import InviteGuestsForm from "./InviteGuestsForm";
@@ -31,7 +32,12 @@ class InviteGuestsModal extends React.Component {
   }
 
   inviteUsers() {
-    this.props.fetchUsers();
+    const guestsIds = [];
+    _.forIn(this.props.invitedGuests.values, (value, key) => {
+      if (value.invited) guestsIds.push(key);
+    });
+
+    this.props.inviteGuests(this.props.displayedEvent._id, guestsIds);
     this.props.onClose();
   }
 
@@ -49,12 +55,15 @@ class InviteGuestsModal extends React.Component {
   }
 }
 
-function mapStateToProps({ users, guests, form }) {
+function mapStateToProps({ users, guests, form, displayedEvent }) {
   return {
     invitedGuests: form.inviteGuests,
+    displayedEvent,
     users,
     guests
   };
 }
 
-export default connect(mapStateToProps, { fetchUsers })(InviteGuestsModal);
+export default connect(mapStateToProps, { fetchUsers, inviteGuests })(
+  InviteGuestsModal
+);

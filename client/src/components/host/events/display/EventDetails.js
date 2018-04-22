@@ -14,15 +14,14 @@ class EventDetails extends StateComponent {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            {this.state.isHovering &&
-              this.props.isUserAnOwner && (
-                <TooltippedButton
-                  className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
-                  icon="edit"
-                  title="Edit Event"
-                  onClick={this.toggleModal}
-                />
-              )}
+            {this.props.isUserAnOwner && (
+              <TooltippedButton
+                className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
+                icon="edit"
+                title="Edit Event"
+                onClick={this.toggleModal}
+              />
+            )}
             <EditEventDetailsModal
               show={this.state.isOpen}
               onClose={this.toggleModal}

@@ -5,6 +5,7 @@ const { ObjectID } = require("mongodb");
 const Event = mongoose.model("events");
 const Invitation = mongoose.model("invitations");
 const User = mongoose.model("users");
+const {parseInvitationIdsToInvitations} = require("../parsers/InvitationsParser");
 
 router.get("/details", requireLogin, async (req, res) => {
   const event = await Event.findOne({ _id: req.query.eventId });
@@ -23,22 +24,7 @@ router.get("/guests", requireLogin, async (req, res) => {
     const event = await Event.findOne({ _id: req.query.eventId });
     const invitationsId = event.invitations;
 
-    const guestsList = await Promise.all(
-      invitationsId.map(async invitationId => {
-        const guest = {};
-        const invitation = await Invitation.findOne({ _id: invitationId });
-        const user = await User.findOne({
-          _id: new ObjectID(invitation.invitedId)
-        });
-        guest.name = user.name;
-        guest.id = user._id;
-        guest.inventoryAsked = invitation.inventoryAsked;
-        guest.inventoryAccepted = invitation.inventoryAccepted;
-
-        return guest;
-      })
-    );
-
+    const guestsList = await parseInvitationIdsToInvitations(invitationsId);
     res.status(202).send(guestsList);
   } catch (error) {
     res.status(422).send(error);

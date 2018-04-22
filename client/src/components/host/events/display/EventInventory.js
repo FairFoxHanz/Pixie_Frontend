@@ -14,15 +14,14 @@ class EventInventory extends StateComponent {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            {this.state.isHovering &&
-              this.props.isUserAnOwner && (
-                <TooltippedButton
-                  className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
-                  icon="edit"
-                  title="Edit Inventory"
-                  onClick={this.toggleModal}
-                />
-              )}
+            {this.props.isUserAnOwner && (
+              <TooltippedButton
+                className="btn-floating btn-small waves-effect waves-light cyan right edit-button"
+                icon="edit"
+                title="Edit Inventory"
+                onClick={this.toggleModal}
+              />
+            )}
             <EditInventoryModal
               show={this.state.isOpen}
               onClose={this.toggleModal}

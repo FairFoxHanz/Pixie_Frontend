@@ -5,7 +5,6 @@ import Loader from "../../../Loader";
 import InviteGuestsModal from "./InviteGuestsModal";
 
 class EventGuests extends StateComponent {
-
   render() {
     return (
       <div className="row">
@@ -15,16 +14,18 @@ class EventGuests extends StateComponent {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            {this.state.isHovering &&
-              this.props.isUserAnOwner && (
-                <TooltippedButton
-                  className="btn-floating btn-small waves-effect waves-light red right edit-button"
-                  icon="add"
-                  title="Add Guests"
-                  onClick={this.toggleModal}
-                />
-              )}
-            <InviteGuestsModal show={this.state.isOpen} onClose={this.toggleModal} />
+            {this.props.isUserAnOwner && (
+              <TooltippedButton
+                className="btn-floating btn-small waves-effect waves-light red right edit-button"
+                icon="add"
+                title="Add Guests"
+                onClick={this.toggleModal}
+              />
+            )}
+            <InviteGuestsModal
+              show={this.state.isOpen}
+              onClose={this.toggleModal}
+            />
             <div className="card-content">
               <div className="card-title">Guests</div>
               {this.renderGuestsTable(this.props.guests)}

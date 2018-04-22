@@ -75,6 +75,23 @@ export const createEvent = (event, history) => {
   };
 };
 
+export const inviteGuests = (eventId, guestIdList) => {
+  const requestBody = {};
+  requestBody.eventId = eventId;
+  requestBody.invitations = guestIdList.map(guestId => ({
+    invitedId: guestId
+  }));
+  
+  const guests = axios.post(`/api/invitations/invite`, requestBody, {
+    withCredentials: true
+  }).then(response => response.data);;
+
+  return {
+    type: FETCH_GUESTS,
+    payload: guests
+  };
+}
+
 export const fetchInvitations = () => {
   const invitations = axios
     .get(`/api/invitations/list`, { withCredentials: true })
