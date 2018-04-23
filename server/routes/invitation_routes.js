@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const requireLogin = require("../middlewares/require_login");
+const { requireLogin } = require("../middlewares/require_login");
 const router = require("express").Router();
 const Invitation = mongoose.model("invitations");
 const Inventory = mongoose.model("inventory");

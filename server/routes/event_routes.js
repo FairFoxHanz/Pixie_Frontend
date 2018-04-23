@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
-const requireLogin = require("../middlewares/require_login");
+const { requireLogin } = require("../middlewares/require_login");
 const router = require("express").Router();
 const { ObjectID } = require("mongodb");
 const Event = mongoose.model("events");
 const Invitation = mongoose.model("invitations");
 const User = mongoose.model("users");
-const {parseInvitationIdsToInvitations} = require("../parsers/InvitationsParser");
+const {
+  parseInvitationIdsToInvitations
+} = require("../parsers/InvitationsParser");
 
 router.get("/details", requireLogin, async (req, res) => {
   const event = await Event.findOne({ _id: req.query.eventId });

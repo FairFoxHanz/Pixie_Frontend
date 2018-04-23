@@ -58,3 +58,5 @@ if (process.env.NODE_ENV == "production") {
 } else {
   https.createServer(options, app).listen(PORT);
 }
+
+module.exports = { app };

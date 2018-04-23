@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const inventorySchema = require("./inventory");
 const invitationSchema = require("./invitation");
 
-const eventSchema = new Schema({
+const Event = new Schema({
   name: {
     type: String,
     required: true
@@ -21,4 +21,5 @@ const eventSchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: "User" }
 });
 
-mongoose.model("events", eventSchema);
+mongoose.model("events", Event);
+module.exports = { Event };
