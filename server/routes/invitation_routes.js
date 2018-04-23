@@ -4,7 +4,9 @@ const router = require("express").Router();
 const Invitation = mongoose.model("invitations");
 const Inventory = mongoose.model("inventory");
 const Event = mongoose.model("events");
-const {parseInvitationIdsToInvitations} = require("../parsers/InvitationsParser");
+const {
+  parseInvitationIdsToInvitations
+} = require("../parsers/InvitationsParser");
 
 router.post("/respond", requireLogin, async (req, res) => {
   const { response, inventoryAccepted } = req.body;
@@ -67,6 +69,35 @@ async function createInvitations({ invitedId, inventoryAsked }, eventId) {
     return null;
   }
 }
+
+router.post("/cancel", requireLogin, async (req, res) => {
+  try {
+    const invitationId = req.body.invitationId;
+    const invitation = await Invitation.findOne({
+      _id: invitationId
+    });
+
+    Invitation.findByIdAndRemove(invitationId, async (err, invitation) => {
+      if (err) {
+        res.status(500).send([]);
+      }
+      const event = await Event.findOne({ _id: invitation.eventId });
+
+      event.invitations = event.invitations.filter(
+        invitation => invitation !== invitationId
+      );
+
+      event.save();
+
+      const invitationsId = event.invitations;
+      const guestsList = await parseInvitationIdsToInvitations(invitationsId);
+
+      res.status(200).send(guestsList);
+    });
+  } catch (error) {
+    res.status(400).send([]);
+  }
+});
 
 router.get("/list", requireLogin, async (req, res) => {
   try {

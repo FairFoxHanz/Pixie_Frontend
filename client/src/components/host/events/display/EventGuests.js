@@ -3,6 +3,8 @@ import TooltippedButton from "../../../TooltippedButton";
 import StateComponent from "../../../StateComponent";
 import Loader from "../../../Loader";
 import InviteGuestsModal from "./InviteGuestsModal";
+import { connect } from "react-redux";
+import { removeInvitation } from "../../../../actions";
 
 class EventGuests extends StateComponent {
   render() {
@@ -56,9 +58,22 @@ class EventGuests extends StateComponent {
           </thead>
           <tbody>
             {guests.map(guest => {
+              console.log(guest);
               return (
-                <tr key={guest.id}>
-                  <td>{guest.name}</td>
+                <tr key={guest.invitationId}>
+                  <td>
+                    {guest.name}
+                    {this.props.isUserAnOwner && (
+                      <button
+                        className="btn-flat right"
+                        onClick={() =>
+                          this.props.removeInvitation(guest.invitationId)
+                        }
+                      >
+                        Uninvite
+                      </button>
+                    )}
+                  </td>
                 </tr>
               );
             })}
@@ -69,4 +84,4 @@ class EventGuests extends StateComponent {
   }
 }
 
-export default EventGuests;
+export default connect(null, { removeInvitation })(EventGuests);

@@ -81,16 +81,34 @@ export const inviteGuests = (eventId, guestIdList) => {
   requestBody.invitations = guestIdList.map(guestId => ({
     invitedId: guestId
   }));
-  
-  const guests = axios.post(`/api/invitations/invite`, requestBody, {
-    withCredentials: true
-  }).then(response => response.data);;
+
+  const guests = axios
+    .post(`/api/invitations/invite`, requestBody, {
+      withCredentials: true
+    })
+    .then(response => response.data);
 
   return {
     type: FETCH_GUESTS,
     payload: guests
   };
-}
+};
+
+export const removeInvitation = invitationId => {
+  const requestBody = {};
+  requestBody.invitationId = invitationId;
+
+  const guests = axios
+    .post(`/api/invitations/cancel`, requestBody, {
+      withCredentials: true
+    })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_GUESTS,
+    payload: guests
+  };
+};
 
 export const fetchInvitations = () => {
   const invitations = axios
