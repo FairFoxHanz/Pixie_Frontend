@@ -64,6 +64,21 @@ export const fetchEvents = () => {
   };
 };
 
+export const provideItem = (eventId, item) => {
+  const requestBody = {};
+  requestBody.eventId = eventId;
+  requestBody.item = item;
+
+  const event = axios
+    .post(`/api/invitations/provide`, requestBody, { withCredentials: true })
+    .then(response => response.data);
+
+  return {
+    type: FETCH_EVENT,
+    payload: event
+  };
+};
+
 export const createEvent = (event, history) => {
   const res = axios.post(`/api/events/create`, event, {
     withCredentials: true

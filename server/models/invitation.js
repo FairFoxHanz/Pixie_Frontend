@@ -17,9 +17,7 @@ const invitationSchema = new Schema({
   inventoryAsked: {
     type: [inventorySchema]
   },
-  inventoryAccepted: {
-    type: [inventorySchema]
-  }
+  inventoryAccepted: [inventorySchema]
 });
 
 mongoose.model("invitations", invitationSchema);

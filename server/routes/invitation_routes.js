@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/require_login");
 const router = require("express").Router();
@@ -10,6 +11,60 @@ const {
 
 router.post("/respond", requireLogin, async (req, res) => {
   const { response, inventoryAccepted } = req.body;
+});
+
+router.post("/provide", requireLogin, async (req, res) => {
+  try {
+    const { eventId, item } = req.body;
+    const userId = req.user.id;
+    let alreadyBrings = false;
+    let itemIndex = null;
+
+    const invitation = await Invitation.findOne({
+      eventId: eventId,
+      invitedId: userId
+    });
+    for (const [index, value] of invitation.inventoryAccepted.entries()) {
+      if (value.name === item.name) {
+        item.amount = Number(value.amount) + Number(item.amount);
+        itemIndex = index;
+        alreadyBrings = true;
+        break;
+      }
+    }
+    console.log(invitation);
+
+    if (alreadyBrings) {
+      invitation.inventoryAccepted[itemIndex].amount = Number(item.amount);
+      invitation.inventoryAccepted.set(
+        itemIndex,
+        invitation.inventoryAccepted[itemIndex]
+      );
+    } else {
+      invitation.inventoryAccepted.push(new Inventory(item));
+    }
+
+    console.log(invitation);
+
+    await invitation.save();
+    const event = await Event.findById(eventId);
+
+    // event.inventory = await Promise.all(
+    //   event.inventory.map(eventItem => {
+    //     if (eventItem.name === item.name) {
+    //       eventItem.amount -= item.amount;
+    //     }
+    //     return eventItem;
+    //   })
+    // );
+    // console.log(event);
+    // await event.save();
+    // console.log(event);
+    res.status(200).send(event);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({});
+  }
 });
 
 router.post("/modify", requireLogin, async (req, res) => {
