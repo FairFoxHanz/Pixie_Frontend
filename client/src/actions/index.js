@@ -64,14 +64,35 @@ export const fetchEvents = () => {
   };
 };
 
-export const provideItem = (eventId, item) => {
+export const provideItem = (eventId, item, callback) => {
   const requestBody = {};
   requestBody.eventId = eventId;
   requestBody.item = item;
 
   const event = axios
     .post(`/api/invitations/provide`, requestBody, { withCredentials: true })
-    .then(response => response.data);
+    .then(response => {
+      callback();
+      return response.data;
+    });
+
+  return {
+    type: FETCH_EVENT,
+    payload: event
+  };
+};
+
+export const cancelItem = (eventId, itemName, callback) => {
+  const requestBody = {};
+  requestBody.eventId = eventId;
+  requestBody.itemName = itemName;
+
+  const event = axios
+    .post(`/api/invitations/cancelItem`, requestBody, { withCredentials: true })
+    .then(response => {
+      callback(eventId);
+      return response.data;
+    });
 
   return {
     type: FETCH_EVENT,

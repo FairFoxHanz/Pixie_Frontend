@@ -24,18 +24,19 @@ router.post("/provide", requireLogin, async (req, res) => {
       eventId: eventId,
       invitedId: userId
     });
+
+    let willBring = null;
     for (const [index, value] of invitation.inventoryAccepted.entries()) {
       if (value.name === item.name) {
-        item.amount = Number(value.amount) + Number(item.amount);
+        willBring = Number(value.amount) + Number(item.amount);
         itemIndex = index;
         alreadyBrings = true;
         break;
       }
     }
-    console.log(invitation);
 
     if (alreadyBrings) {
-      invitation.inventoryAccepted[itemIndex].amount = Number(item.amount);
+      invitation.inventoryAccepted[itemIndex].amount = Number(willBring);
       invitation.inventoryAccepted.set(
         itemIndex,
         invitation.inventoryAccepted[itemIndex]
@@ -44,22 +45,65 @@ router.post("/provide", requireLogin, async (req, res) => {
       invitation.inventoryAccepted.push(new Inventory(item));
     }
 
-    console.log(invitation);
+    await invitation.save();
+    const event = await Event.findById(eventId);
+
+    for (const [index, value] of event.inventory.entries()) {
+      if (value.name === item.name) {
+        itemIndex = index;
+        break;
+      }
+    }
+
+    event.inventory[itemIndex].amount -= Number(item.amount);
+    event.inventory.set(itemIndex, event.inventory[itemIndex]);
+
+    await event.save();
+
+    res.status(200).send(event);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({});
+  }
+});
+
+router.post("/cancelItem", requireLogin, async (req, res) => {
+  try {
+    const { eventId, itemName } = req.body;
+    const userId = req.user.id;
+    let itemIndex = null;
+    let willNotBring = null;
+
+    const invitation = await Invitation.findOne({
+      eventId: eventId,
+      invitedId: userId
+    });
+
+    for (const [index, value] of invitation.inventoryAccepted.entries()) {
+      if (value.name === itemName) {
+        willNotBring = Number(value.amount);
+        itemIndex = index;
+        break;
+      }
+    }
+
+    invitation.inventoryAccepted.splice(itemIndex, 1);
 
     await invitation.save();
     const event = await Event.findById(eventId);
 
-    // event.inventory = await Promise.all(
-    //   event.inventory.map(eventItem => {
-    //     if (eventItem.name === item.name) {
-    //       eventItem.amount -= item.amount;
-    //     }
-    //     return eventItem;
-    //   })
-    // );
-    // console.log(event);
-    // await event.save();
-    // console.log(event);
+    for (const [index, value] of event.inventory.entries()) {
+      if (value.name === itemName) {
+        itemIndex = index;
+        break;
+      }
+    }
+
+    event.inventory[itemIndex].amount += Number(willNotBring);
+    event.inventory.set(itemIndex, event.inventory[itemIndex]);
+
+    await event.save();
+
     res.status(200).send(event);
   } catch (error) {
     console.log(error);
@@ -137,6 +181,18 @@ router.post("/cancel", requireLogin, async (req, res) => {
         res.status(500).send([]);
       }
       const event = await Event.findOne({ _id: invitation.eventId });
+
+      for (const inventoryItem of invitation.inventoryAccepted) {
+        for (const [index, value] of event.inventory.entries()) {
+          if (value.name === inventoryItem.name) {
+            itemIndex = index;
+            break;
+          }
+        }
+
+        event.inventory[itemIndex].amount += Number(inventoryItem.amount);
+        event.inventory.set(itemIndex, event.inventory[itemIndex]);
+      }
 
       event.invitations = event.invitations.filter(
         invitation => invitation !== invitationId
